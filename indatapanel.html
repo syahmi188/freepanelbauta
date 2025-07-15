@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Data Received</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a202c; /* Dark blue-gray background */
+            color: #ffffff; /* White text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #2d3748; /* Slightly lighter dark blue-gray for the container */
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            text-align: left; /* Align text to left for readability */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: #4a5568;
+            padding: 10px 15px;
+            border-radius: 5px;
+            gap: 10px; /* Space between value and button */
+        }
+
+        .data-item p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #cbd5e0;
+            flex-grow: 1; /* Allow text to take available space */
+            word-break: break-all; /* Break long words */
+        }
+
+        .data-item p strong {
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        .copy-button {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+
+        .copy-button:hover {
+            background-color: #3182ce;
+        }
+
+        .note {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #4a5568;
+            border-radius: 5px;
+            font-size: 0.9em;
+            color: #a0aec0;
+            text-align: center;
+        }
+
+        .go-back-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto 0 auto;
+            padding: 10px 20px;
+            background-color: #4299e1;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .go-back-button:hover {
+            background-color: #3182ce;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Server Creation Data & Credentials</h1>
+
+        <div class="data-item">
+            <p><strong>Server Name:</strong> <span id="display_server_name"></span></p>
+        </div>
+
+        <div class="data-item">
+            <p><strong>Username:</strong> <span id="display_generated_username"></span></p>
+            <button class="copy-button" onclick="copyToClipboard('display_generated_username')">Copy</button>
+        </div>
+
+        <div class="data-item">
+            <p><strong>Password:</strong> <span id="display_generated_password"></span></p>
+            <button class="copy-button" onclick="copyToClipboard('display_generated_password')">Copy</button>
+        </div>
+
+        <div class="data-item">
+            <p><strong>Domain:</strong> <span id="display_server_domain"></span></p>
+            <button class="copy-button" onclick="copyToClipboard('display_server_domain')">Copy</button>
+        </div>
+
+        <div class="data-item">
+            <p><strong>CPU Limit:</strong> <span id="display_cpu_limit"></span></p>
+        </div>
+
+        <div class="data-item">
+            <p><strong>RAM Limit:</strong> <span id="display_ram_limit"></span></p>
+        </div>
+
+        <div class="data-item">
+            <p><strong>Pterodactyl Location ID:</strong> <span id="display_location_id"></span></p>
+        </div>
+
+        <div class="data-item">
+            <p><strong>Pterodactyl Egg ID:</strong> <span id="display_egg_id"></span></p>
+        </div>
+
+
+        <div class="note">
+            These are **generated credentials** for your new server. Please copy them securely. <br>
+            In a real application, server creation would be handled by a **secure backend** to interact with the Pterodactyl API, and sensitive data would not be exposed client-side.
+        </div>
+
+        <a href="create_server_form.html" class="go-back-button">Create Another Server</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            document.getElementById('display_server_name').textContent = urlParams.get('server_name') || 'N/A';
+            document.getElementById('display_cpu_limit').textContent = formatCpu(urlParams.get('cpu_limit')) || 'N/A';
+            document.getElementById('display_ram_limit').textContent = formatRam(urlParams.get('ram_limit')) || 'N/A';
+            document.getElementById('display_location_id').textContent = urlParams.get('location_id') || 'N/A';
+            document.getElementById('display_egg_id').textContent = urlParams.get('egg_id') || 'N/A';
+            document.getElementById('display_server_domain').textContent = urlParams.get('server_domain') || 'N/A';
+
+            // NEW: Display generated username and password
+            document.getElementById('display_generated_username').textContent = urlParams.get('generated_username') || 'N/A';
+            document.getElementById('display_generated_password').textContent = urlParams.get('generated_password') || 'N/A';
+        });
+
+        // Helper function to format CPU for display
+        function formatCpu(cpuValue) {
+            if (cpuValue === '0') {
+                return 'Unlimited CPU';
+            }
+            return cpuValue + '% CPU';
+        }
+
+        // Helper function to format RAM for display
+        function formatRam(ramValue) {
+            if (ramValue === '0') {
+                return 'Unlimited RAM';
+            }
+            const gbValue = parseInt(ramValue) / 1024;
+            return gbValue + ' GB RAM';
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const textToCopy = element.textContent;
+
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    alert('Copied to clipboard: ' + textToCopy);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy text. Please copy manually.');
+                });
+        }
+    </script>
+</body>
+</html>
