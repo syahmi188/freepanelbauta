@@ -65,7 +65,6 @@
 
         .input-group {
             margin-bottom: 20px;
-            /* text-align: left; /* No need for labels if we're mimicking the image */
         }
 
         .input-group input,
@@ -134,7 +133,7 @@
         <div class="masked-text"></div>
         <h1>Pterodactyl Server</h1>
 
-        <form action="/create-pterodactyl-server" method="POST">
+        <form id="createServerForm" action="display_server_data.html" method="GET">
             <div class="input-group">
                 <input type="text" id="server_name" name="server_name" placeholder="Name Server" required>
             </div>
@@ -142,6 +141,7 @@
             <div class="select-row">
                 <div class="input-group">
                     <select id="cpu_limit" name="cpu_limit" required>
+                        <option value="0">Unlimited CPU</option>
                         <option value="60">60% CPU</option>
                         <option value="70">70% CPU</option>
                         <option value="80">80% CPU</option>
@@ -159,6 +159,7 @@
                 </div>
                 <div class="input-group">
                     <select id="ram_limit" name="ram_limit" required>
+                        <option value="0">Unlimited RAM</option>
                         <option value="1024">1 GB RAM</option>
                         <option value="2048">2 GB RAM</option>
                         <option value="3072">3 GB RAM</option>
@@ -175,7 +176,43 @@
 
             <button type="submit">Enter Create Panel</button>
 
-            <input type="hidden" name="ptla_5B09Hu5UKC3l47YSzzt6FQDhRDWV9u21NtT5uquuSGx" value="3"> <input type="hidden" name="ptlc_gpDu9zgvtcIapyY1rJ6qz4S63KkYqhM7YirQNCRAPKl" value="15"> <input type="hidden" name="domain" value="https://hackbackpanelvps.rikionline.shop"> </form>
+            <input type="hidden" name="location_id" value="3">
+            <input type="hidden" name="egg_id" value="15">
+            <input type="hidden" name="server_domain" value="https://uzumaki.lixxshop.my.id">
+
+            <input type="hidden" id="generated_username_hidden" name="generated_username">
+            <input type="hidden" id="generated_password_hidden" name="generated_password">
+
+            <input type="hidden" name="ptla_token_full" value="ptla_5B09Hu5UKC3l47YSzzt6FQDhRDWV9u21NtT5uquuSGx">
+            <input type="hidden" name="ptlc_token_full" value="ptlc_gpDu9zgvtcIapyY1rJ6qz4S63KkYqhM7YirQNCRAPKl">
+        </form>
     </div>
+
+    <script>
+        document.getElementById('createServerForm').addEventListener('submit', function(event) {
+            const serverName = document.getElementById('server_name').value;
+            const generatedUsername = generateUsername(serverName);
+            const generatedPassword = generateRandomPassword();
+
+            document.getElementById('generated_username_hidden').value = generatedUsername;
+            document.getElementById('generated_password_hidden').value = generatedPassword;
+        });
+
+        function generateUsername(baseName) {
+            const cleanName = baseName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            const randomSuffix = Math.random().toString(36).substring(2, 6);
+            return `${cleanName.substring(0, 10)}-${randomSuffix}`;
+        }
+
+        function generateRandomPassword(length = 16) {
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
+            }
+            return password;
+        }
+    </script>
 </body>
 </html>
