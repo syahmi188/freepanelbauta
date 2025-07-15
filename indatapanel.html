@@ -141,21 +141,12 @@
             <p><strong>Pterodactyl Egg ID:</strong> <span id="display_egg_id"></span></p>
         </div>
 
-        <div class="data-item">
-            <p><strong>PTLA Token (Sensitive!):</strong> <span id="display_ptla_token_full"></span></p>
-            <button class="copy-button" onclick="copyToClipboard('display_ptla_token_full')">Copy</button>
-        </div>
-        <div class="data-item">
-            <p><strong>PTLC Token (Sensitive!):</strong> <span id="display_ptlc_token_full"></span></p>
-            <button class="copy-button" onclick="copyToClipboard('display_ptlc_token_full')">Copy</button>
-        </div>
-
         <div class="note">
-            These are **generated credentials** and **sensitive Pterodactyl tokens** for your new server. Please copy them securely. <br>
+            These are **generated credentials** for your new server. Please copy them securely. <br>
             <strong style="color: #ef4444;">WARNING:</strong> In a real application, server creation would be handled by a **secure backend**. Sensitive tokens like PTLA and PTLC should **NEVER** be sent or displayed client-side. They belong securely on your backend server only.
         </div>
 
-        <a href="index.html" class="go-back-button">Create Another Server</a>
+        <a href="create_server_form.html" class="go-back-button">Create Another Server</a>
     </div>
 
     <script>
@@ -171,9 +162,7 @@
             document.getElementById('display_generated_username').textContent = urlParams.get('generated_username') || 'N/A';
             document.getElementById('display_generated_password').textContent = urlParams.get('generated_password') || 'N/A';
 
-            // Display PTLA and PTLC full strings
-            document.getElementById('display_ptla_token_full').textContent = urlParams.get('ptla_token_full') || 'N/A';
-            document.getElementById('display_ptlc_token_full').textContent = urlParams.get('ptlc_token_full') || 'N/A';
+            // Removed: JavaScript lines that populated PTLA and PTLC tokens
         });
 
         // Helper function to format CPU for display
