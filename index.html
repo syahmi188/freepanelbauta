@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pterodactyl Server Creation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a202c; /* Dark blue-gray background */
+            color: #ffffff; /* White text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #2d3748; /* Slightly lighter dark blue-gray for the container */
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 2px solid #4a5568; /* Subtle border around profile pic */
+        }
+
+        .masked-text {
+            width: 80%;
+            height: 20px;
+            background-color: #4a5568;
+            margin: 0 auto 30px auto;
+            border-radius: 4px;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            /* text-align: left; /* No need for labels if we're mimicking the image */
+        }
+
+        .input-group input,
+        .input-group select {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4a5568; /* Darker input background */
+            color: #ffffff;
+            font-size: 1em;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .input-group input::placeholder {
+            color: #a0aec0; /* Lighter placeholder text */
+        }
+
+        .select-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px; /* Space before the button */
+        }
+
+        .select-row .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .select-row select {
+            width: 100%;
+            -webkit-appearance: none; /* Remove default arrow for custom styling */
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom dropdown arrow */
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 24px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4299e1; /* Blue button */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* Space after the button if needed, mimicking original image placement */
+        }
+
+        button:hover {
+            background-color: #3182ce; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="menu-icon">&#8942;</span> <div></div>
+        </div>
+        <img src="https://files.catbox.moe/hwhvml.jpg" alt="Profile Picture" class="profile-picture">
+        <div class="masked-text"></div>
+        <h1>Pterodactyl Server</h1>
+
+        <form action="/create-pterodactyl-server" method="POST">
+            <div class="input-group">
+                <input type="text" id="server_name" name="server_name" placeholder="Name Server" required>
+            </div>
+
+            <div class="select-row">
+                <div class="input-group">
+                    <select id="cpu_limit" name="cpu_limit" required>
+                        <option value="60">60% CPU</option>
+                        <option value="70">70% CPU</option>
+                        <option value="80">80% CPU</option>
+                        <option value="90">90% CPU</option>
+                        <option value="100">100% CPU</option>
+                        <option value="125">125% CPU</option>
+                        <option value="150">150% CPU</option>
+                        <option value="175">175% CPU</option>
+                        <option value="200">200% CPU</option>
+                        <option value="225">225% CPU</option>
+                        <option value="250">250% CPU</option>
+                        <option value="275">275% CPU</option>
+                        <option value="300">300% CPU</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <select id="ram_limit" name="ram_limit" required>
+                        <option value="1024">1 GB RAM</option>
+                        <option value="2048">2 GB RAM</option>
+                        <option value="3072">3 GB RAM</option>
+                        <option value="4096">4 GB RAM</option>
+                        <option value="5120">5 GB RAM</option>
+                        <option value="6144">6 GB RAM</option>
+                        <option value="7168">7 GB RAM</option>
+                        <option value="8192">8 GB RAM</option>
+                        <option value="9216">9 GB RAM</option>
+                        <option value="10240">10 GB RAM</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit">Enter Create Panel</button>
+
+            <input type="hidden" name="ptla_5B09Hu5UKC3l47YSzzt6FQDhRDWV9u21NtT5uquuSGx" value="3"> <input type="hidden" name="ptlc_gpDu9zgvtcIapyY1rJ6qz4S63KkYqhM7YirQNCRAPKl" value="15"> <input type="hidden" name="domain" value="https://hackbackpanelvps.rikionline.shop"> </form>
+    </div>
+</body>
+</html>
